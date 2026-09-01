@@ -1,54 +1,60 @@
-# Security scan summary
+# SkyFlow — Live Weather Wallpaper
 
-_Automated security analysis of SkyFlow. Reports are generated in CI on each release. This page summarises the findings honestly — including which flags are expected by design and which are artifacts of how the scan is run._
+![Release](https://img.shields.io/github/v/release/otabz/skyflow-app?label=latest%20release)
+![Platform](https://img.shields.io/badge/platform-Android%208.0%2B-3ddc84?logo=android&logoColor=white)
+![Signed](https://img.shields.io/badge/release-signed-brightgreen)
+[![Security scans](https://img.shields.io/badge/security-scanned-blue)](security/)
 
-## Tools
+A personal live-wallpaper experiment that brings the beautiful MIUI weather experience to your Android home screen — ever-changing skies, majestic clouds, gentle transitions, and rich colors that follow your local weather and the time of day.
 
-- **mobsfscan** — static analysis of the app's Java source (MobSF rules, semgrep).
-- **MobSF** — static analysis of the built APK (permissions, manifest, certificate).
-- **Dependabot** — dependency vulnerability scanning (GitHub, on the private source repo).
+> **Download the latest APK from the [Releases page](../../releases).**
+> Sideloading requires allowing "install from unknown sources" for your browser or file manager.
 
-## Headline
+## Screenshots
 
-No hardcoded secrets, no known-vulnerable dependencies, and no exploitable findings in the source. The MobSF APK score is deflated by debug-build flags that are **not present in the released APK** — see below.
+| Clear sky | Rain | Night |
+| --------- | ---- | ----- |
+| ![Clear sky](images/clear.png) | ![Rain](images/rain.png) | ![Night sky](images/night.png) |
 
-## About the APK score
+## What it does
 
-The CI scan analyses a **debug build** of the APK (this keeps the release signing key out of the scan job). Two of MobSF's highest-weighted findings are therefore artifacts of the debug build and do **not** apply to the released app:
+- **Real-time weather** — the scene reflects the current conditions at your location: cloud cover, rain, snow, and clear skies.
+- **Time-of-day sky** — physically-modelled atmospheric color that shifts through sunrise, day, sunset, and night.
+- **Weather effects** — layered rain and snow, lightning during storms, sun glare, rainbows, a starfield at night, and the occasional galaxy.
+- **Smooth transitions** — conditions cross-fade rather than snap, so the wallpaper changes gracefully as the weather does.
+- **Location-aware** — uses your device location, or a city you pick, to fetch local weather.
+- **Efficient** — a fixed-rate renderer with steady, bounded memory use.
 
-| MobSF finding | Reality |
-| --- | --- |
-| "Signed with a debug certificate" | The **released** APK is signed with a private release key. Only the scan build is debug-signed. |
-| "Debug enabled (android:debuggable=true)" | The **released** build sets isDebuggable = false and is R8-minified. Debug builds set this flag; release builds do not. |
+## Supported devices
 
-Because these two items carry most of the score penalty, the released APK's real posture is substantially better than the debug-scan number suggests.
+- Android with arm64-v8a or armeabi-v7a (essentially all current phones).
+- Android 8.0 (Oreo) and above.
+- Requires location permission for automatic local weather; a manual city selection is available if you prefer not to grant it.
 
-## Findings and disposition
+## Security & privacy
 
-**Expected by design**
+SkyFlow is built with a published security process. The reports in [`security/`](security/) are generated from automated scans of the source and the built app:
 
-- **Wallpaper service is exported and guarded by BIND_WALLPAPER.** Required: the Android system must be able to bind a live-wallpaper service. This is how every live wallpaper works.
-- **INTERNET, ACCESS_NETWORK_STATE, and location permissions.** Needed to fetch local weather. Location is optional — a manual city selection is available.
-- **minSdk 26 (Android 8.0).** A device-reach choice, not a vulnerability.
+- **Dependency scanning** — third-party libraries checked for known vulnerabilities (Dependabot).
+- **Static analysis** — the source and APK scanned for insecure patterns each release (mobsfscan + MobSF).
+- **Signed releases** — every APK is signed with a stable release key, so updates are verifiably from the same author.
 
-**False positives (reviewed)**
+See the [security scan summary](security/) for the findings and an honest breakdown of what each flag means.
 
-- **"Hardcoded API key" (many matches).** These are SharedPreferences key names (e.g. KEY_LATITUDE = "latitude"), not secrets. No API key is embedded in the app.
-- **"Hardcoded username".** Matches the app's HTTP User-Agent string, not a credential.
-- **"Insecure random number generator".** java.util.Random is used for visual randomness (cloud drift, lightning timing), not for anything security-sensitive.
-- **"Hidden UI element".** Matches setVisibility(GONE) on an error label and a search box — neither holds sensitive data.
+**Privacy:** SkyFlow requests location to fetch local weather. What it accesses and how it uses it is described in [`PRIVACY.md`](PRIVACY.md).
 
-**Optional future hardening (informational)**
+## About this project
 
-- TLS certificate pinning / transparency, tapjacking protection, root detection, screenshot prevention. These are defence-in-depth suggestions, not defects.
+SkyFlow is a personal, non-commercial experiment — a fan's attempt to bring the beautiful MIUI weather experience onto an Android live wallpaper, so people like me can enjoy ever-changing weather with gentle transitions, majestic clouds, and rich sky colors throughout the day.
 
-## Reports
+The weather visuals are closely derived from MIUI's weather designs, recreated for learning and personal enjoyment. This project is **not affiliated with, endorsed by, or connected to Xiaomi or MIUI**, and all rights to the original MIUI weather designs remain with Xiaomi. The application code and engine are the author's own work; the visual designs are not.
 
-The raw reports for each release are published under security/<version>/:
+If Xiaomi requests removal, this project will be taken down without hesitation.
 
-- mobsf-report.pdf / mobsf-report.json — full MobSF APK analysis.
-- mobsfscan-report.json — source static-analysis results.
+## License
 
-## Note on asset protection
+The **source code** for this project (the rendering engine, build tooling, and app logic) is the author's own work. The **visual designs and weather artwork** are derived from MIUI and remain the property of Xiaomi — they are not offered for reuse. Please do not redistribute the artwork or ship it in other apps.
 
-These scans assess the security of the application **code** — that it is free of known vulnerabilities and embeds no secrets. Artwork protection (asset encryption with a native-code key) is a separate concern handled inside the app; it raises the cost of casual asset extraction but, like all client-side protection, cannot make extraction impossible.
+## Feedback
+
+Questions and bug reports are welcome in [Issues](../../issues).
