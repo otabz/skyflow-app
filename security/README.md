@@ -1,34 +1,72 @@
-# Security reports
+# Security scan summary
 
-Published output from the automated scans run against the SkyFlow source.
+_Automated security analysis of SkyFlow. Reports are generated in CI on each
+release. This page summarises the findings honestly — including which flags are
+expected by design and which are artifacts of how the scan is run._
 
-## What goes here
+## Tools
 
-Commit generated reports into this folder and link them from the main README.
-Suggested cadence: refresh on each release, or monthly.
+- **mobsfscan** — static analysis of the app's Java source (MobSF rules, semgrep).
+- **MobSF** — static analysis of the built APK (permissions, manifest, certificate).
+- **Dependabot** — dependency vulnerability scanning (GitHub, on the private source repo).
 
-- **CodeQL** — from the private repo's Security tab, export or summarise results.
-  Save as `codeql-YYYY-MM.md`.
-- **Dependabot / dependency audit** — the dependency alert summary. Save as
-  `dependencies-YYYY-MM.md` (or `.pdf`).
-- **Any additional scanners** you run (e.g. MobSF for the APK) — save the summary
-  here too.
+## Headline
 
-## How to generate them
+No hardcoded secrets, no known-vulnerable dependencies, and no exploitable
+findings in the source. The MobSF APK score is deflated by debug-build flags that
+are **not present in the released APK** — see below.
 
-The scans run in the **private** `skyflow` repository (it has the source). Enable
-in that repo's **Settings → Code security**:
+## About the APK score
 
-- Dependency graph + Dependabot alerts
-- CodeQL analysis (default setup is one click; it runs on every push)
-- Secret scanning
+The CI scan analyses a **debug build** of the APK (this keeps the release signing
+key out of the scan job). Two of MobSF's highest-weighted findings are therefore
+artifacts of the debug build and do **not** apply to the released app:
 
-Then export or summarise the results and commit the summary here, in the public
-repo, so the report is visible without exposing the source.
+| MobSF finding | Reality |
+| --- | --- |
+| "Signed with a debug certificate" | The **released** APK is signed with a private release key. Only the scan build is debug-signed. |
+| "Debug enabled (`android:debuggable=true`)" | The **released** build sets `isDebuggable = false` and is R8-minified. Debug builds set this flag; release builds do not. |
 
-## Note
+Because these two items carry most of the score penalty, the released APK's real
+posture is substantially better than the debug-scan number suggests.
 
-These reports describe the security of the application **code** — that it is free
-of known vulnerabilities and built from audited dependencies. They are a signal
-that the app is safe to install. They are separate from asset protection, which is
-handled inside the app.
+## Findings and disposition
+
+**Expected by design**
+
+- **Wallpaper service is exported and guarded by `BIND_WALLPAPER`.** Required: the
+  Android system must be able to bind a live-wallpaper service. This is how every
+  live wallpaper works.
+- **`INTERNET`, `ACCESS_NETWORK_STATE`, and location permissions.** Needed to fetch
+  local weather. Location is optional — a manual city selection is available.
+- **`minSdk 26` (Android 8.0).** A device-reach choice, not a vulnerability.
+
+**False positives (reviewed)**
+
+- **"Hardcoded API key" (many matches).** These are SharedPreferences key *names*
+  (e.g. `KEY_LATITUDE = "latitude"`), not secrets. No API key is embedded in the app.
+- **"Hardcoded username".** Matches the app's HTTP `User-Agent` string, not a credential.
+- **"Insecure random number generator".** `java.util.Random` is used for visual
+  randomness (cloud drift, lightning timing), not for anything security-sensitive.
+- **"Hidden UI element".** Matches `setVisibility(GONE)` on an error label and a
+  search box — neither holds sensitive data.
+
+**Optional future hardening (informational)**
+
+- TLS certificate pinning / transparency, tapjacking protection, root detection,
+  screenshot prevention. These are defence-in-depth suggestions, not defects.
+
+## Reports
+
+The raw reports for each release are published under `security/<version>/`:
+
+- `mobsf-report.pdf` / `mobsf-report.json` — full MobSF APK analysis.
+- `mobsfscan-report.json` — source static-analysis results.
+
+## Note on asset protection
+
+These scans assess the security of the application **code** — that it is free of
+known vulnerabilities and embeds no secrets. Artwork protection (asset encryption
+with a native-code key) is a separate concern handled inside the app; it raises
+the cost of casual asset extraction but, like all client-side protection, cannot
+make extraction impossible.
