@@ -12,9 +12,11 @@ A personal live-wallpaper experiment that brings the beautiful MIUI weather expe
 
 ## Screenshots
 
-| Clear sky | Rain | Night |
-| --------- | ---- | ----- |
-| ![Clear sky](images/clear.png) | ![Rain](images/rain.png) | ![Night sky](images/night.png) |
+| Clear | Partly cloudy | Thunderstorm |
+| :---: | :---: | :---: |
+| ![Clear sky](images/clear.jpg) | ![Partly cloudy](images/partly_cloudy.jpg) | ![Thunderstorm](images/thunderstorm.jpg) |
+| **Heavy snow** | **Heavy sand** | **Milky Way (night)** |
+| ![Heavy snow](images/heavy_snow.jpg) | ![Heavy sand](images/heavy_sand.jpg) | ![Milky Way night sky](images/milky_way.jpg) |
 
 ## What it does
 
