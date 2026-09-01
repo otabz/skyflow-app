@@ -12,11 +12,28 @@ A personal live-wallpaper experiment that brings the beautiful MIUI weather expe
 
 ## Screenshots
 
-| Clear | Partly cloudy | Thunderstorm |
-| :---: | :---: | :---: |
-| ![Clear sky](images/clear.jpg) | ![Partly cloudy](images/partly_cloudy.jpg) | ![Thunderstorm](images/thunderstorm.jpg) |
-| **Heavy snow** | **Heavy sand** | **Milky Way (night)** |
-| ![Heavy snow](images/heavy_snow.jpg) | ![Heavy sand](images/heavy_sand.jpg) | ![Milky Way night sky](images/milky_way.jpg) |
+<table>
+  <tr>
+    <td align="center"><b>Clear</b></td>
+    <td align="center"><b>Partly cloudy</b></td>
+    <td align="center"><b>Thunderstorm</b></td>
+  </tr>
+  <tr>
+    <td><img src="images/clear.jpg" width="240" alt="Clear sky"></td>
+    <td><img src="images/partly_cloudy.jpg" width="240" alt="Partly cloudy"></td>
+    <td><img src="images/thunderstorm.jpg" width="240" alt="Thunderstorm"></td>
+  </tr>
+  <tr>
+    <td align="center"><b>Heavy snow</b></td>
+    <td align="center"><b>Heavy sand</b></td>
+    <td align="center"><b>Milky Way (night)</b></td>
+  </tr>
+  <tr>
+    <td><img src="images/heavy_snow.jpg" width="240" alt="Heavy snow"></td>
+    <td><img src="images/heavy_sand.jpg" width="240" alt="Heavy sand"></td>
+    <td><img src="images/milky_way.jpg" width="240" alt="Milky Way night sky"></td>
+  </tr>
+</table>
 
 ## What it does
 
