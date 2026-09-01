@@ -1,4 +1,8 @@
 # SkyFlow — Live Weather Wallpaper
+![Release](https://img.shields.io/github/v/release/otabz/skyflow-app?label=latest%20release)
+![Platform](https://img.shields.io/badge/platform-Android%208.0%2B-3ddc84?logo=android&logoColor=white)
+![Signed](https://img.shields.io/badge/release-signed-brightgreen)
+[![Security scans](https://img.shields.io/badge/security-scanned-blue)](security/)
 
 A live wallpaper for Android that renders the sky above you in real time — clouds,
 sun, rain, snow, lightning, stars, and galaxies that follow your local weather and
