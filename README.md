@@ -7,8 +7,29 @@
 
 A personal live-wallpaper experiment that brings the beautiful MIUI weather experience to your Android home screen — ever-changing skies, majestic clouds, gentle transitions, and rich colors that follow your local weather and the time of day.
 
+> ## ⚠️ IMPORTANT — ANDROID INSTALLATION NOTICE
+>
 > **Download the latest APK from the [Releases page](../../releases).**
-> Sideloading requires allowing "install from unknown sources" for your browser or file manager.
+>
+> Android / Google Play Protect may warn that SkyFlow is unsafe or from an unrecognized developer when you install the APK.
+>
+> SkyFlow is currently distributed directly through GitHub and the developer is **not yet registered with Android's developer verification program**. Because of this, Android may not recognize the developer and may display a security warning during installation.
+>
+> **If you downloaded the APK directly from this repository's official Releases page, you can continue by selecting _More details_ and then _Install anyway_ when Android provides that option.**
+>
+> The exact wording may vary depending on your Android version.
+>
+> ✅ No advertising, analytics, or tracking  
+> ✅ SkyFlow has no server or backend of its own  
+> ✅ Data is sent directly to **Open-Meteo** only for weather, air-quality, and city/geocoding requests  
+> ✅ No camera, microphone, contacts, storage, or notification access  
+> ✅ The only optional runtime permission is **Location**  
+> ✅ Location permission can be avoided entirely by selecting a city manually  
+> ✅ Security scan reports are published in [`security/`](security/)  
+> ✅ Releases are signed with the same release certificate  
+> ✅ Download only from this repository's official **Releases** page
+>
+> 🔒 **Privacy:** SkyFlow has no server or backend of its own and contains no advertising, analytics, or tracking. It communicates directly with **Open-Meteo** only to retrieve weather, air-quality, and city/geocoding information needed by the app. Location permission is optional and is used only to obtain weather for your current location; you can avoid granting it entirely by selecting a city manually. Your selected city and app preferences are stored locally on your device. See [`PRIVACY.md`](PRIVACY.md) for full details.
 
 ## Screenshots
 
@@ -17,6 +38,7 @@ A personal live-wallpaper experiment that brings the beautiful MIUI weather expe
   <img src="images/partly_cloudy.jpg" width="31%" alt="Partly cloudy">
   <img src="images/thunderstorm.jpg" width="31%" alt="Thunderstorm">
 </p>
+
 <p align="center">
   <strong>Clear</strong> · <strong>Partly cloudy</strong> · <strong>Thunderstorm</strong>
 </p>
@@ -26,6 +48,7 @@ A personal live-wallpaper experiment that brings the beautiful MIUI weather expe
   <img src="images/heavy_sand.jpg" width="31%" alt="Heavy sand">
   <img src="images/milky_way.jpg" width="31%" alt="Milky Way night sky">
 </p>
+
 <p align="center">
   <strong>Heavy snow</strong> · <strong>Heavy sand</strong> · <strong>Milky Way (night)</strong>
 </p>
@@ -41,21 +64,21 @@ A personal live-wallpaper experiment that brings the beautiful MIUI weather expe
 
 ## Supported devices
 
-- Android with arm64-v8a or armeabi-v7a (essentially all current phones).
+- Android with arm64-v8a or armeabi-v7a.
 - Android 8.0 (Oreo) and above.
-- Requires location permission for automatic local weather; a manual city selection is available if you prefer not to grant it.
+- Location permission is optional. It is only needed for automatic local weather; you can select a city manually instead.
 
 ## Security & privacy
 
 SkyFlow is built with a published security process. The reports in [`security/`](security/) are generated from automated scans of the source and the built app:
 
-- **Dependency scanning** — third-party libraries checked for known vulnerabilities (Dependabot).
-- **Static analysis** — the source and APK scanned for insecure patterns each release (mobsfscan + MobSF).
-- **Signed releases** — every APK is signed with a stable release key, so updates are verifiably from the same author.
+- **Dependency scanning** — third-party libraries checked for known vulnerabilities with Dependabot.
+- **Static analysis** — the source and APK scanned for insecure patterns each release using mobsfscan and MobSF.
+- **Signed releases** — every APK is signed with a stable release key, so updates can be verified as coming from the same author.
 
-See the [security scan summary](security/) for the findings and an honest breakdown of what each flag means.
+See the [security scan summary](security/) for the findings and an explanation of what each reported flag means.
 
-**Privacy:** SkyFlow requests location to fetch local weather. What it accesses and how it uses it is described in [`PRIVACY.md`](PRIVACY.md).
+**Privacy:** SkyFlow has no server or backend of its own and contains no advertising, analytics, or tracking. It communicates directly with **Open-Meteo** only to retrieve weather, air-quality, and city/geocoding information needed by the app. Location permission is optional and can be avoided entirely by selecting a city manually. Your selected city and app preferences are stored locally on your device. See [`PRIVACY.md`](PRIVACY.md) for full details.
 
 ## About this project
 
@@ -67,7 +90,9 @@ If Xiaomi requests removal, this project will be taken down without hesitation.
 
 ## License
 
-The **source code** for this project (the rendering engine, build tooling, and app logic) is the author's own work. The **visual designs and weather artwork** are derived from MIUI and remain the property of Xiaomi — they are not offered for reuse. Please do not redistribute the artwork or ship it in other apps.
+The **source code** for this project — including the rendering engine, build tooling, and app logic — is the author's own work.
+
+The **visual designs and weather artwork** are derived from MIUI and remain the property of Xiaomi. They are not offered for reuse. Please do not redistribute the artwork or ship it in other applications.
 
 ## Feedback
 
