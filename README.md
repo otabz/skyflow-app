@@ -12,28 +12,23 @@ A personal live-wallpaper experiment that brings the beautiful MIUI weather expe
 
 ## Screenshots
 
-<table>
-  <tr>
-    <td align="center"><b>Clear</b></td>
-    <td align="center"><b>Partly cloudy</b></td>
-    <td align="center"><b>Thunderstorm</b></td>
-  </tr>
-  <tr>
-    <td><img src="images/clear.jpg" width="240" alt="Clear sky"></td>
-    <td><img src="images/partly_cloudy.jpg" width="240" alt="Partly cloudy"></td>
-    <td><img src="images/thunderstorm.jpg" width="240" alt="Thunderstorm"></td>
-  </tr>
-  <tr>
-    <td align="center"><b>Heavy snow</b></td>
-    <td align="center"><b>Heavy sand</b></td>
-    <td align="center"><b>Milky Way (night)</b></td>
-  </tr>
-  <tr>
-    <td><img src="images/heavy_snow.jpg" width="240" alt="Heavy snow"></td>
-    <td><img src="images/heavy_sand.jpg" width="240" alt="Heavy sand"></td>
-    <td><img src="images/milky_way.jpg" width="240" alt="Milky Way night sky"></td>
-  </tr>
-</table>
+<p align="center">
+  <img src="images/clear.jpg" width="31%" alt="Clear sky">
+  <img src="images/partly_cloudy.jpg" width="31%" alt="Partly cloudy">
+  <img src="images/thunderstorm.jpg" width="31%" alt="Thunderstorm">
+</p>
+<p align="center">
+  <strong>Clear</strong> · <strong>Partly cloudy</strong> · <strong>Thunderstorm</strong>
+</p>
+
+<p align="center">
+  <img src="images/heavy_snow.jpg" width="31%" alt="Heavy snow">
+  <img src="images/heavy_sand.jpg" width="31%" alt="Heavy sand">
+  <img src="images/milky_way.jpg" width="31%" alt="Milky Way night sky">
+</p>
+<p align="center">
+  <strong>Heavy snow</strong> · <strong>Heavy sand</strong> · <strong>Milky Way (night)</strong>
+</p>
 
 ## What it does
 
