@@ -3,7 +3,7 @@
 ![Release](https://img.shields.io/github/v/release/otabz/skyflow-app?label=latest%20release)
 ![Platform](https://img.shields.io/badge/platform-Android%208.0%2B-3ddc84?logo=android&logoColor=white)
 ![Signed](https://img.shields.io/badge/release-signed-brightgreen)
-[![Security scans](https://img.shields.io/badge/security-scanned-blue)](security/)
+[![Security scans](https://img.shields.io/badge/security-release%20scanned-blue)](https://github.com/otabz/skyflow-app/releases/latest)
 
 A personal live-wallpaper experiment that brings the beautiful MIUI weather experience to your Android home screen — ever-changing skies, majestic clouds, gentle transitions, and rich colors that follow your local weather and the time of day.
 
@@ -25,7 +25,7 @@ A personal live-wallpaper experiment that brings the beautiful MIUI weather expe
 > ✅ No camera, microphone, contacts, storage, or notification access  
 > ✅ The only optional runtime permission is **Location**  
 > ✅ Location permission can be avoided entirely by selecting a city manually  
-> ✅ Security scan reports are published in [`security/`](security/)  
+> ✅ Published release APKs are security-scanned; see the [latest release](https://github.com/otabz/skyflow-app/releases/latest)  
 > ✅ Releases are signed with the same release certificate  
 > ✅ Download only from this repository's official **Releases** page
 >
@@ -70,13 +70,13 @@ A personal live-wallpaper experiment that brings the beautiful MIUI weather expe
 
 ## Security & privacy
 
-SkyFlow is built with a published security process. The reports in [`security/`](security/) are generated from automated scans of the source and the built app:
+SkyFlow is built with a published security process. The **actual release APK distributed through GitHub Releases** is scanned so the security results correspond to the build users download:
 
-- **Dependency scanning** — third-party libraries checked for known vulnerabilities with Dependabot.
-- **Static analysis** — the source and APK scanned for insecure patterns each release using mobsfscan and MobSF.
+- **Release APK scanning** — the published Android release APK is analysed with MobSF.
+- **Dependency scanning** — third-party libraries are monitored for known vulnerabilities with Dependabot.
 - **Signed releases** — every APK is signed with a stable release key, so updates can be verified as coming from the same author.
 
-See the [security scan summary](security/) for the findings and an explanation of what each reported flag means.
+See the [latest release and security scan](https://github.com/otabz/skyflow-app/releases/latest). Earlier reports are retained in the [`security/`](security/) archive.
 
 **Privacy:** SkyFlow has no server or backend of its own and contains no advertising, analytics, or tracking. It communicates directly with **Open-Meteo** only to retrieve weather, air-quality, and city/geocoding information needed by the app. Location permission is optional and can be avoided entirely by selecting a city manually. Your selected city and app preferences are stored locally on your device. See [`PRIVACY.md`](PRIVACY.md) for full details.
 
@@ -86,13 +86,10 @@ SkyFlow is a personal, non-commercial experiment — a fan's attempt to bring th
 
 The weather visuals are closely derived from MIUI's weather designs, recreated for learning and personal enjoyment. This project is **not affiliated with, endorsed by, or connected to Xiaomi or MIUI**, and all rights to the original MIUI weather designs remain with Xiaomi. The application code and engine are the author's own work; the visual designs are not.
 
-If Xiaomi requests removal, this project will be taken down without hesitation.
 
 ## License
 
-The **source code** for this project — including the rendering engine, build tooling, and app logic — is the author's own work.
-
-The **visual designs and weather artwork** are derived from MIUI and remain the property of Xiaomi. They are not offered for reuse. Please do not redistribute the artwork or ship it in other applications.
+The **source code** for this project — including the rendering engine, build tooling, and app logic — is the author's own work. The **visual designs and weather artwork** are derived from MIUI, but have been adapted and optimized for the live wallpaper experience, including performance, rendering efficiency, and memory usage.
 
 ## Feedback
 

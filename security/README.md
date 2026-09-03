@@ -1,51 +1,42 @@
-# SkyFlow — Security scan summary
+# SkyFlow — Security scans
 
-Automated security analysis for SkyFlow. Reports are generated from the source and APK and published here so the results can be reviewed directly.
+SkyFlow security verification is performed against the **published release APK** distributed through GitHub Releases. This means the scanned app is the same release build users download, rather than a separate debug scan build.
 
-[← Back to main README](../README.md) · [Privacy policy](../PRIVACY.md)
+[← Back to main README](../README.md) · [Latest release & security scan](https://github.com/otabz/skyflow-app/releases/latest) · [All releases](https://github.com/otabz/skyflow-app/releases) · [Privacy policy](../PRIVACY.md)
 
-## Latest published reports — v1.1.3
+## Current release scanning
 
-- [MobSF APK report (PDF)](v1.1.3/mobsf-report.pdf)
-- [MobSF APK report (JSON)](v1.1.3/mobsf-report.json)
-- [mobsfscan source report (JSON)](v1.1.3/mobsfscan-report.json)
+For each published release, the release APK is analysed as part of the release security process. Security results and release assets should be reviewed from the corresponding entry on the [GitHub Releases page](https://github.com/otabz/skyflow-app/releases).
 
-## Tools
-
-- **mobsfscan** — static analysis of the app's Java source using MobSF/Semgrep rules.
-- **MobSF** — static analysis of the built Android APK, including permissions, manifest configuration, certificate information, code findings, and network configuration.
-- **Dependabot** — dependency vulnerability monitoring through GitHub.
-
-## Important note about the APK scan
-
-The published MobSF report for v1.1.3 analyses the **debug scan build** (`1.1.3-debug`), not the signed production APK.
-
-Because of this, MobSF reports findings that are expected for the scan build:
-
-| MobSF finding | What it means |
-| --- | --- |
-| **Application signed with a debug certificate** | The APK submitted to MobSF is the debug scan build. Public SkyFlow releases are signed separately with the stable release certificate. |
-| **Debug enabled (`android:debuggable=true`)** | Expected for the debug scan build. It does not describe the release build. |
-| **Android 8.0 / minSdk 26** | SkyFlow intentionally supports Android 8.0 and above. |
-| **Exported wallpaper service protected by `BIND_WALLPAPER`** | Required for Android to bind to a live wallpaper service. |
-
-The MobSF report identifies the scanned APK as:
+The release scan covers the actual production package:
 
 - **App:** SkyFlow Live Weather
-- **Package:** `com.otabz.skyflowliveweather.debug`
-- **Version:** `1.1.3-debug`
-- **Permissions:** Internet, network state, coarse location, and fine location
-- **Detected trackers:** 0
+- **Package:** `com.otabz.skyflowliveweather`
+- **Build:** signed release APK
 
-## Source-scan findings
+This avoids the misleading debug-only findings that can appear when a separate debug APK is scanned, such as a debug certificate, `android:debuggable=true`, or a `.debug` application ID.
 
-Some static-analysis findings are expected false positives or non-security-sensitive uses:
+## Security tools
 
-- Strings used as SharedPreferences keys may be reported as possible hardcoded keys even though they are not credentials or API secrets.
-- `java.util.Random` is used for visual effects such as cloud and lightning variation, not cryptographic operations.
-- UI visibility calls such as `setVisibility(GONE)` can be flagged even when they only control ordinary interface elements.
+- **MobSF** — static analysis of the published Android release APK, including permissions, manifest configuration, certificate information, code findings, network configuration, and other APK security checks.
+- **Dependabot** — dependency vulnerability monitoring through GitHub.
 
-Raw findings are available in the published JSON reports above.
+## Historical reports
+
+The versioned folders under this `security/` directory are retained as a historical archive of earlier scan reports. Some older versions include **mobsfscan source reports** and reports produced from the previous scan workflow.
+
+For the current security status, use the scan associated with the relevant [GitHub Release](https://github.com/otabz/skyflow-app/releases) rather than assuming an older report in this directory represents the latest build.
+
+## Interpreting scan findings
+
+Automated security scanners can report findings that are expected or non-security-sensitive in the context of an Android live wallpaper. For example:
+
+- SharedPreferences key strings are application preference identifiers, not API credentials or secrets.
+- `java.util.Random` may be used for visual variation such as clouds or lightning rather than for cryptographic purposes.
+- The exported wallpaper service is protected by Android's `BIND_WALLPAPER` permission because Android must be able to bind to a live wallpaper service.
+- Android 8.0 / API 26 is intentionally supported as the minimum Android version.
+
+Review findings in the context of the exact release APK that was scanned.
 
 ## Permissions and privacy
 
@@ -57,8 +48,8 @@ Location permission is optional. It is used for automatic local weather and can 
 
 See the [privacy policy](../PRIVACY.md) for full details.
 
-## About these reports
+## About security scans
 
-Security scanning helps identify common implementation and configuration issues, but automated scan results should not be interpreted as a guarantee that software is free from every possible vulnerability.
+Automated scanning helps identify common implementation, dependency, and configuration issues, but a clean scan is not a guarantee that software is free from every possible vulnerability.
 
-The raw scan outputs are kept alongside this summary so findings can be independently reviewed for each published version.
+Always download SkyFlow from this repository's official [GitHub Releases page](https://github.com/otabz/skyflow-app/releases).
