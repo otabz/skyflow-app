@@ -1,0 +1,1494 @@
+{
+  "errors": [],
+  "mobsfscan_version": "1.0.0",
+  "results": {
+    "android_certificate_pinning": {
+      "metadata": {
+        "cwe": "CWE-295: Improper Certificate Validation",
+        "description": "This app does not use a TLS/SSL certificate or public key pinning in code to detect or prevent MITM attacks in secure communication channel. Please verify if pinning is enabled in `network_security_config.xml`.",
+        "masvs": "MSTG-NETWORK-4",
+        "owasp-mobile": "M3: Insecure Communication",
+        "reference": "https://github.com/MobSF/owasp-mstg/blob/master/Document/0x05g-Testing-Network-Communication.md#testing-custom-certificate-stores-and-certificate-pinning-mstg-network-4",
+        "severity": "INFO"
+      }
+    },
+    "android_certificate_transparency": {
+      "metadata": {
+        "cwe": "CWE-295: Improper Certificate Validation",
+        "description": "This app does not enforce TLS Certificate Transparency that helps to detect SSL certificates that have been mistakenly issued by a certificate authority or maliciously acquired from an otherwise unimpeachable certificate authority.",
+        "masvs": "MSTG-NETWORK-4",
+        "owasp-mobile": "M3: Insecure Communication",
+        "reference": "https://github.com/MobSF/owasp-mstg/blob/master/Document/0x05g-Testing-Network-Communication.md#testing-custom-certificate-stores-and-certificate-pinning-mstg-network-4",
+        "severity": "INFO"
+      }
+    },
+    "android_detect_tapjacking": {
+      "metadata": {
+        "cwe": "CWE-200: Information Exposure",
+        "description": "This app does not have capabilities to prevent tapjacking attacks. An attacker can hijack the user's taps and tricks him into performing some critical operations that he did not intend to.",
+        "masvs": "MSTG-PLATFORM-9",
+        "owasp-mobile": "M1: Improper Platform Usage",
+        "reference": "https://github.com/MobSF/owasp-mstg/blob/master/Document/0x05h-Testing-Platform-Interaction.md#testing-for-overlay-attacks-mstg-platform-9",
+        "severity": "INFO"
+      }
+    },
+    "android_hidden_ui": {
+      "files": [
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/CitySearchSheet.java",
+          "match_lines": [
+            195,
+            195
+          ],
+          "match_position": [
+            9,
+            45
+          ],
+          "match_string": "        sheet.setVisibility(View.INVISIBLE);"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/MainActivity.java",
+          "match_lines": [
+            616,
+            616
+          ],
+          "match_position": [
+            13,
+            55
+          ],
+          "match_string": "            weatherErrorText.setVisibility(View.GONE);"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/MainActivity.java",
+          "match_lines": [
+            641,
+            641
+          ],
+          "match_position": [
+            13,
+            58
+          ],
+          "match_string": "            citySearchContainer.setVisibility(View.GONE);"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/MainActivity.java",
+          "match_lines": [
+            926,
+            926
+          ],
+          "match_position": [
+            13,
+            55
+          ],
+          "match_string": "            weatherErrorText.setVisibility(View.GONE);"
+        }
+      ],
+      "metadata": {
+        "cwe": "CWE-919: Weaknesses in Mobile Applications",
+        "description": "Hidden elements in view can be used to hide data from user. But this data can be leaked. If the view contains sensitive data, it might still be accessible through memory inspection. A good practice is to clear sensitive data before hiding it.",
+        "masvs": "MSTG-STORAGE-7",
+        "owasp-mobile": "M1: Improper Platform Usage",
+        "reference": "https://github.com/MobSF/owasp-mstg/blob/master/Document/0x05d-Testing-Data-Storage.md#checking-for-sensitive-data-disclosure-through-the-user-interface-mstg-storage-7",
+        "severity": "ERROR"
+      }
+    },
+    "android_logging": {
+      "files": [
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/CloudRenderer.java",
+          "match_lines": [
+            544,
+            604
+          ],
+          "match_position": [
+            13,
+            93
+          ],
+          "match_string": "            depthProgram = createProgram(vertex, readTextResource(R.raw.cloud_depth));\n\n            \n            \n            String shadeVertex = readTextResource(R.raw.cloud_shade_vertex);\n            shadeProgram = createProgram(\n                    shadeVertex, readTextResource(R.raw.cloud_fragment));\n            steadyShadeProgram = createProgram(\n                    shadeVertex, readTextResource(R.raw.cloud_fragment_steady));\n            if (depthProgram == 0 || shadeProgram == 0 || steadyShadeProgram == 0) {\n                release();\n                return false;\n            }\n            \n            depthUniforms = new CloudUniforms(depthProgram);\n            shadeUniforms = new CloudUniforms(shadeProgram);\n            steadyShadeUniforms = new CloudUniforms(steadyShadeProgram);\n            GlStateCache.useProgram(depthProgram);\n            GlStateCache.useProgram(shadeProgram);\n            GlStateCache.useProgram(steadyShadeProgram);\n            createCloudConfigUbo();\n            GlStateCache.useProgram(0);\n            noiseProgram = createProgram(\n                    readTextResource(R.raw.cloud_noise_vertex),\n                    readTextResource(R.raw.cloud_noise));\n            if (noiseProgram == 0) {\n                release();\n                return false;\n            }\n            noiseMatrixLocation = GLES30.glGetUniformLocation(noiseProgram, \"uMatrix\");\n            noiseEdgeOffsetLocation = GLES30.glGetUniformLocation(noiseProgram, \"uEdgeOffset\");\n            noiseTexLocation = GLES30.glGetUniformLocation(noiseProgram, \"uNoiseTex\");\n            createGeometry();\n            boolean atlasesOk = true;\n            cumulusTextures = new int[CUMULUS_ATLASES.length];\n            for (int k = 0; k < CUMULUS_ATLASES.length; k++) {\n                cumulusTextures[k] = createAstcTexture(CUMULUS_ATLASES[k]);\n                atlasesOk &= cumulusTextures[k] != 0;\n            }\n            cirrostratusTextures = new int[CIRROSTRATUS_ATLASES.length];\n            for (int k = 0; k < CIRROSTRATUS_ATLASES.length; k++) {\n                cirrostratusTextures[k] =\n                        createAstcTexture(CIRROSTRATUS_ATLASES[k]);\n                atlasesOk &= cirrostratusTextures[k] != 0;\n            }\n            nimbostratusTextures = new int[NIMBOSTRATUS_ATLASES.length];\n            for (int k = 0; k < NIMBOSTRATUS_ATLASES.length; k++) {\n                nimbostratusTextures[k] =\n                        createAstcTexture(NIMBOSTRATUS_ATLASES[k]);\n                atlasesOk &= nimbostratusTextures[k] != 0;\n            }\n            noiseInputTexture = createAstcTexture(R.raw.cloud_noise_input);\n            \n            \n            createNoiseTarget();\n            noiseEdgeOffset = 0.0;\n            noiseEdgeLowClamp = false;\n            noiseEdgeFraction = 0.0;\n            Log.i(TAG, \"init programs depth=\" + depthProgram + \" shade=\" + shadeProgram\n                    + \" steadyShade=\" + steadyShadeProgram\n                    + \" noise=\" + noiseProgram + \" vao=\" + vao + \" atlasesOk=\" + atlasesOk);"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/CloudRenderer.java",
+          "match_lines": [
+            549,
+            604
+          ],
+          "match_position": [
+            13,
+            93
+          ],
+          "match_string": "            shadeProgram = createProgram(\n                    shadeVertex, readTextResource(R.raw.cloud_fragment));\n            steadyShadeProgram = createProgram(\n                    shadeVertex, readTextResource(R.raw.cloud_fragment_steady));\n            if (depthProgram == 0 || shadeProgram == 0 || steadyShadeProgram == 0) {\n                release();\n                return false;\n            }\n            \n            depthUniforms = new CloudUniforms(depthProgram);\n            shadeUniforms = new CloudUniforms(shadeProgram);\n            steadyShadeUniforms = new CloudUniforms(steadyShadeProgram);\n            GlStateCache.useProgram(depthProgram);\n            GlStateCache.useProgram(shadeProgram);\n            GlStateCache.useProgram(steadyShadeProgram);\n            createCloudConfigUbo();\n            GlStateCache.useProgram(0);\n            noiseProgram = createProgram(\n                    readTextResource(R.raw.cloud_noise_vertex),\n                    readTextResource(R.raw.cloud_noise));\n            if (noiseProgram == 0) {\n                release();\n                return false;\n            }\n            noiseMatrixLocation = GLES30.glGetUniformLocation(noiseProgram, \"uMatrix\");\n            noiseEdgeOffsetLocation = GLES30.glGetUniformLocation(noiseProgram, \"uEdgeOffset\");\n            noiseTexLocation = GLES30.glGetUniformLocation(noiseProgram, \"uNoiseTex\");\n            createGeometry();\n            boolean atlasesOk = true;\n            cumulusTextures = new int[CUMULUS_ATLASES.length];\n            for (int k = 0; k < CUMULUS_ATLASES.length; k++) {\n                cumulusTextures[k] = createAstcTexture(CUMULUS_ATLASES[k]);\n                atlasesOk &= cumulusTextures[k] != 0;\n            }\n            cirrostratusTextures = new int[CIRROSTRATUS_ATLASES.length];\n            for (int k = 0; k < CIRROSTRATUS_ATLASES.length; k++) {\n                cirrostratusTextures[k] =\n                        createAstcTexture(CIRROSTRATUS_ATLASES[k]);\n                atlasesOk &= cirrostratusTextures[k] != 0;\n            }\n            nimbostratusTextures = new int[NIMBOSTRATUS_ATLASES.length];\n            for (int k = 0; k < NIMBOSTRATUS_ATLASES.length; k++) {\n                nimbostratusTextures[k] =\n                        createAstcTexture(NIMBOSTRATUS_ATLASES[k]);\n                atlasesOk &= nimbostratusTextures[k] != 0;\n            }\n            noiseInputTexture = createAstcTexture(R.raw.cloud_noise_input);\n            \n            \n            createNoiseTarget();\n            noiseEdgeOffset = 0.0;\n            noiseEdgeLowClamp = false;\n            noiseEdgeFraction = 0.0;\n            Log.i(TAG, \"init programs depth=\" + depthProgram + \" shade=\" + shadeProgram\n                    + \" steadyShade=\" + steadyShadeProgram\n                    + \" noise=\" + noiseProgram + \" vao=\" + vao + \" atlasesOk=\" + atlasesOk);"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/CloudRenderer.java",
+          "match_lines": [
+            551,
+            604
+          ],
+          "match_position": [
+            13,
+            93
+          ],
+          "match_string": "            steadyShadeProgram = createProgram(\n                    shadeVertex, readTextResource(R.raw.cloud_fragment_steady));\n            if (depthProgram == 0 || shadeProgram == 0 || steadyShadeProgram == 0) {\n                release();\n                return false;\n            }\n            \n            depthUniforms = new CloudUniforms(depthProgram);\n            shadeUniforms = new CloudUniforms(shadeProgram);\n            steadyShadeUniforms = new CloudUniforms(steadyShadeProgram);\n            GlStateCache.useProgram(depthProgram);\n            GlStateCache.useProgram(shadeProgram);\n            GlStateCache.useProgram(steadyShadeProgram);\n            createCloudConfigUbo();\n            GlStateCache.useProgram(0);\n            noiseProgram = createProgram(\n                    readTextResource(R.raw.cloud_noise_vertex),\n                    readTextResource(R.raw.cloud_noise));\n            if (noiseProgram == 0) {\n                release();\n                return false;\n            }\n            noiseMatrixLocation = GLES30.glGetUniformLocation(noiseProgram, \"uMatrix\");\n            noiseEdgeOffsetLocation = GLES30.glGetUniformLocation(noiseProgram, \"uEdgeOffset\");\n            noiseTexLocation = GLES30.glGetUniformLocation(noiseProgram, \"uNoiseTex\");\n            createGeometry();\n            boolean atlasesOk = true;\n            cumulusTextures = new int[CUMULUS_ATLASES.length];\n            for (int k = 0; k < CUMULUS_ATLASES.length; k++) {\n                cumulusTextures[k] = createAstcTexture(CUMULUS_ATLASES[k]);\n                atlasesOk &= cumulusTextures[k] != 0;\n            }\n            cirrostratusTextures = new int[CIRROSTRATUS_ATLASES.length];\n            for (int k = 0; k < CIRROSTRATUS_ATLASES.length; k++) {\n                cirrostratusTextures[k] =\n                        createAstcTexture(CIRROSTRATUS_ATLASES[k]);\n                atlasesOk &= cirrostratusTextures[k] != 0;\n            }\n            nimbostratusTextures = new int[NIMBOSTRATUS_ATLASES.length];\n            for (int k = 0; k < NIMBOSTRATUS_ATLASES.length; k++) {\n                nimbostratusTextures[k] =\n                        createAstcTexture(NIMBOSTRATUS_ATLASES[k]);\n                atlasesOk &= nimbostratusTextures[k] != 0;\n            }\n            noiseInputTexture = createAstcTexture(R.raw.cloud_noise_input);\n            \n            \n            createNoiseTarget();\n            noiseEdgeOffset = 0.0;\n            noiseEdgeLowClamp = false;\n            noiseEdgeFraction = 0.0;\n            Log.i(TAG, \"init programs depth=\" + depthProgram + \" shade=\" + shadeProgram\n                    + \" steadyShade=\" + steadyShadeProgram\n                    + \" noise=\" + noiseProgram + \" vao=\" + vao + \" atlasesOk=\" + atlasesOk);"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/CloudRenderer.java",
+          "match_lines": [
+            566,
+            604
+          ],
+          "match_position": [
+            13,
+            93
+          ],
+          "match_string": "            noiseProgram = createProgram(\n                    readTextResource(R.raw.cloud_noise_vertex),\n                    readTextResource(R.raw.cloud_noise));\n            if (noiseProgram == 0) {\n                release();\n                return false;\n            }\n            noiseMatrixLocation = GLES30.glGetUniformLocation(noiseProgram, \"uMatrix\");\n            noiseEdgeOffsetLocation = GLES30.glGetUniformLocation(noiseProgram, \"uEdgeOffset\");\n            noiseTexLocation = GLES30.glGetUniformLocation(noiseProgram, \"uNoiseTex\");\n            createGeometry();\n            boolean atlasesOk = true;\n            cumulusTextures = new int[CUMULUS_ATLASES.length];\n            for (int k = 0; k < CUMULUS_ATLASES.length; k++) {\n                cumulusTextures[k] = createAstcTexture(CUMULUS_ATLASES[k]);\n                atlasesOk &= cumulusTextures[k] != 0;\n            }\n            cirrostratusTextures = new int[CIRROSTRATUS_ATLASES.length];\n            for (int k = 0; k < CIRROSTRATUS_ATLASES.length; k++) {\n                cirrostratusTextures[k] =\n                        createAstcTexture(CIRROSTRATUS_ATLASES[k]);\n                atlasesOk &= cirrostratusTextures[k] != 0;\n            }\n            nimbostratusTextures = new int[NIMBOSTRATUS_ATLASES.length];\n            for (int k = 0; k < NIMBOSTRATUS_ATLASES.length; k++) {\n                nimbostratusTextures[k] =\n                        createAstcTexture(NIMBOSTRATUS_ATLASES[k]);\n                atlasesOk &= nimbostratusTextures[k] != 0;\n            }\n            noiseInputTexture = createAstcTexture(R.raw.cloud_noise_input);\n            \n            \n            createNoiseTarget();\n            noiseEdgeOffset = 0.0;\n            noiseEdgeLowClamp = false;\n            noiseEdgeFraction = 0.0;\n            Log.i(TAG, \"init programs depth=\" + depthProgram + \" shade=\" + shadeProgram\n                    + \" steadyShade=\" + steadyShadeProgram\n                    + \" noise=\" + noiseProgram + \" vao=\" + vao + \" atlasesOk=\" + atlasesOk);"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/CloudRenderer.java",
+          "match_lines": [
+            577,
+            604
+          ],
+          "match_position": [
+            13,
+            93
+          ],
+          "match_string": "            boolean atlasesOk = true;\n            cumulusTextures = new int[CUMULUS_ATLASES.length];\n            for (int k = 0; k < CUMULUS_ATLASES.length; k++) {\n                cumulusTextures[k] = createAstcTexture(CUMULUS_ATLASES[k]);\n                atlasesOk &= cumulusTextures[k] != 0;\n            }\n            cirrostratusTextures = new int[CIRROSTRATUS_ATLASES.length];\n            for (int k = 0; k < CIRROSTRATUS_ATLASES.length; k++) {\n                cirrostratusTextures[k] =\n                        createAstcTexture(CIRROSTRATUS_ATLASES[k]);\n                atlasesOk &= cirrostratusTextures[k] != 0;\n            }\n            nimbostratusTextures = new int[NIMBOSTRATUS_ATLASES.length];\n            for (int k = 0; k < NIMBOSTRATUS_ATLASES.length; k++) {\n                nimbostratusTextures[k] =\n                        createAstcTexture(NIMBOSTRATUS_ATLASES[k]);\n                atlasesOk &= nimbostratusTextures[k] != 0;\n            }\n            noiseInputTexture = createAstcTexture(R.raw.cloud_noise_input);\n            \n            \n            createNoiseTarget();\n            noiseEdgeOffset = 0.0;\n            noiseEdgeLowClamp = false;\n            noiseEdgeFraction = 0.0;\n            Log.i(TAG, \"init programs depth=\" + depthProgram + \" shade=\" + shadeProgram\n                    + \" steadyShade=\" + steadyShadeProgram\n                    + \" noise=\" + noiseProgram + \" vao=\" + vao + \" atlasesOk=\" + atlasesOk);"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/CloudRenderer.java",
+          "match_lines": [
+            656,
+            656
+          ],
+          "match_position": [
+            13,
+            93
+          ],
+          "match_string": "            Log.e(TAG, \"Could not construct cloud scene for \" + family.resourceName, error);"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/CloudRenderer.java",
+          "match_lines": [
+            1091,
+            1102
+          ],
+          "match_position": [
+            9,
+            10
+          ],
+          "match_string": "        int phaseIndex = phase.index;\n        if (!requestedFamily.resourceName.equals(loggedFamily) || phaseIndex != loggedPhase) {\n            loggedPhase = phaseIndex;\n            loggedFamily = requestedFamily.resourceName;\n            int count = 0;\n            for (int i = 0; i < cloudLayers.size(); i++) count += cloudLayers.get(i).bank.size();\n            Log.i(TAG, \"family=\" + requestedFamily.resourceName\n                    + \" tz=\" + timezone + \" phase=\" + phaseIndex\n                    + \" formation=\" + currentCloudFormationKey\n                    + \" destinationCloudBanks=\" + cloudLayers.size()\n                    + \" instances=\" + count + \" surface=\" + surfaceWidth + \"x\" + surfaceHeight);\n        }"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/CloudRenderer.java",
+          "match_lines": [
+            1095,
+            1101
+          ],
+          "match_position": [
+            13,
+            97
+          ],
+          "match_string": "            int count = 0;\n            for (int i = 0; i < cloudLayers.size(); i++) count += cloudLayers.get(i).bank.size();\n            Log.i(TAG, \"family=\" + requestedFamily.resourceName\n                    + \" tz=\" + timezone + \" phase=\" + phaseIndex\n                    + \" formation=\" + currentCloudFormationKey\n                    + \" destinationCloudBanks=\" + cloudLayers.size()\n                    + \" instances=\" + count + \" surface=\" + surfaceWidth + \"x\" + surfaceHeight);"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/CloudRenderer.java",
+          "match_lines": [
+            2027,
+            2037
+          ],
+          "match_position": [
+            9,
+            10
+          ],
+          "match_string": "        int id = GLES30.glCreateProgram();\n        GLES30.glAttachShader(id, vertex);\n        GLES30.glAttachShader(id, fragment);\n        GLES30.glLinkProgram(id);\n        int[] status = new int[1];\n        GLES30.glGetProgramiv(id, GLES30.GL_LINK_STATUS, status, 0);\n        if (status[0] == 0) {\n            Log.e(TAG, \"Cloud link failed: \" + GLES30.glGetProgramInfoLog(id));\n            GLES30.glDeleteProgram(id);\n            id = 0;\n        }"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/CloudRenderer.java",
+          "match_lines": [
+            2034,
+            2034
+          ],
+          "match_position": [
+            13,
+            80
+          ],
+          "match_string": "            Log.e(TAG, \"Cloud link failed: \" + GLES30.glGetProgramInfoLog(id));"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/CloudRenderer.java",
+          "match_lines": [
+            2044,
+            2053
+          ],
+          "match_position": [
+            9,
+            10
+          ],
+          "match_string": "        int id = GLES30.glCreateShader(type);\n        GLES30.glShaderSource(id, source);\n        GLES30.glCompileShader(id);\n        int[] status = new int[1];\n        GLES30.glGetShaderiv(id, GLES30.GL_COMPILE_STATUS, status, 0);\n        if (status[0] == 0) {\n            Log.e(TAG, \"Cloud compile failed: \" + GLES30.glGetShaderInfoLog(id));\n            GLES30.glDeleteShader(id);\n            return 0;\n        }"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/CloudRenderer.java",
+          "match_lines": [
+            2050,
+            2050
+          ],
+          "match_position": [
+            13,
+            82
+          ],
+          "match_string": "            Log.e(TAG, \"Cloud compile failed: \" + GLES30.glGetShaderInfoLog(id));"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/RainBackPass.java",
+          "match_lines": [
+            83,
+            90
+          ],
+          "match_position": [
+            9,
+            59
+          ],
+          "match_string": "        backQuality = RainQuality.resolveBackQuality();\n        \n        \n        int loopIterations = 2 + backQuality * 3;\n        Log.i(TAG, \"SkyFlow rain_back quality=\" + backQuality\n                + \" (fixed high)\"\n                + \" loopIterations=\" + loopIterations\n                + \" drawnLayers=\" + (loopIterations - 1));"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/RainBackPass.java",
+          "match_lines": [
+            86,
+            90
+          ],
+          "match_position": [
+            9,
+            59
+          ],
+          "match_string": "        int loopIterations = 2 + backQuality * 3;\n        Log.i(TAG, \"SkyFlow rain_back quality=\" + backQuality\n                + \" (fixed high)\"\n                + \" loopIterations=\" + loopIterations\n                + \" drawnLayers=\" + (loopIterations - 1));"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/SceneTarget.java",
+          "match_lines": [
+            189,
+            197
+          ],
+          "match_position": [
+            9,
+            10
+          ],
+          "match_string": "        int status = GLES30.glCheckFramebufferStatus(GLES30.GL_FRAMEBUFFER);\n        int error = GLES30.glGetError();\n        GLES30.glBindFramebuffer(GLES30.GL_FRAMEBUFFER, 0);\n\n        if (status != GLES30.GL_FRAMEBUFFER_COMPLETE || error != GLES30.GL_NO_ERROR) {\n            Log.w(TAG, \"scene target incomplete: status=0x\" + Integer.toHexString(status)\n                    + \" error=0x\" + Integer.toHexString(error) + \"; rendering direct\");\n            return false;\n        }"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/SceneTarget.java",
+          "match_lines": [
+            190,
+            197
+          ],
+          "match_position": [
+            9,
+            10
+          ],
+          "match_string": "        int error = GLES30.glGetError();\n        GLES30.glBindFramebuffer(GLES30.GL_FRAMEBUFFER, 0);\n\n        if (status != GLES30.GL_FRAMEBUFFER_COMPLETE || error != GLES30.GL_NO_ERROR) {\n            Log.w(TAG, \"scene target incomplete: status=0x\" + Integer.toHexString(status)\n                    + \" error=0x\" + Integer.toHexString(error) + \"; rendering direct\");\n            return false;\n        }"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/SceneTarget.java",
+          "match_lines": [
+            194,
+            195
+          ],
+          "match_position": [
+            13,
+            88
+          ],
+          "match_string": "            Log.w(TAG, \"scene target incomplete: status=0x\" + Integer.toHexString(status)\n                    + \" error=0x\" + Integer.toHexString(error) + \"; rendering direct\");"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/SkyRenderer.java",
+          "match_lines": [
+            913,
+            921
+          ],
+          "match_position": [
+            9,
+            10
+          ],
+          "match_string": "        int textureError = GLES30.glGetError();\n        if (textureError != GLES30.GL_NO_ERROR) {\n            int[] textureId = {texture};\n            GLES30.glDeleteTextures(1, textureId, 0);\n            GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, 0);\n            Log.w(TAG, \"Sky framebuffer \" + label + \" unavailable: GL error 0x\"\n                    + Integer.toHexString(textureError));\n            return null;\n        }"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/SkyRenderer.java",
+          "match_lines": [
+            933,
+            946
+          ],
+          "match_position": [
+            9,
+            10
+          ],
+          "match_string": "        int status = GLES30.glCheckFramebufferStatus(GLES30.GL_FRAMEBUFFER);\n        int framebufferError = GLES30.glGetError();\n        if (status != GLES30.GL_FRAMEBUFFER_COMPLETE || framebufferError != GLES30.GL_NO_ERROR) {\n            int[] fboId = {fbo};\n            int[] textureId = {texture};\n            GLES30.glDeleteFramebuffers(1, fboId, 0);\n            GLES30.glDeleteTextures(1, textureId, 0);\n            GLES30.glBindFramebuffer(GLES30.GL_FRAMEBUFFER, 0);\n            GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, 0);\n            Log.w(TAG, \"Sky framebuffer \" + label + \" unavailable: status 0x\"\n                    + Integer.toHexString(status) + \", GL error 0x\"\n                    + Integer.toHexString(framebufferError));\n            return null;\n        }"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/SkyRenderer.java",
+          "match_lines": [
+            934,
+            946
+          ],
+          "match_position": [
+            9,
+            10
+          ],
+          "match_string": "        int framebufferError = GLES30.glGetError();\n        if (status != GLES30.GL_FRAMEBUFFER_COMPLETE || framebufferError != GLES30.GL_NO_ERROR) {\n            int[] fboId = {fbo};\n            int[] textureId = {texture};\n            GLES30.glDeleteFramebuffers(1, fboId, 0);\n            GLES30.glDeleteTextures(1, textureId, 0);\n            GLES30.glBindFramebuffer(GLES30.GL_FRAMEBUFFER, 0);\n            GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, 0);\n            Log.w(TAG, \"Sky framebuffer \" + label + \" unavailable: status 0x\"\n                    + Integer.toHexString(status) + \", GL error 0x\"\n                    + Integer.toHexString(framebufferError));\n            return null;\n        }"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/SunGlareRenderer.java",
+          "match_lines": [
+            670,
+            680
+          ],
+          "match_position": [
+            9,
+            10
+          ],
+          "match_string": "        int id = GLES30.glCreateProgram();\n        GLES30.glAttachShader(id, vertex);\n        GLES30.glAttachShader(id, fragment);\n        GLES30.glLinkProgram(id);\n        int[] status = new int[1];\n        GLES30.glGetProgramiv(id, GLES30.GL_LINK_STATUS, status, 0);\n        if (status[0] == 0) {\n            Log.e(TAG, \"Sun glare link failed: \" + GLES30.glGetProgramInfoLog(id));\n            GLES30.glDeleteProgram(id);\n            id = 0;\n        }"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/SunGlareRenderer.java",
+          "match_lines": [
+            677,
+            677
+          ],
+          "match_position": [
+            13,
+            84
+          ],
+          "match_string": "            Log.e(TAG, \"Sun glare link failed: \" + GLES30.glGetProgramInfoLog(id));"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/SunGlareRenderer.java",
+          "match_lines": [
+            687,
+            696
+          ],
+          "match_position": [
+            9,
+            10
+          ],
+          "match_string": "        int id = GLES30.glCreateShader(type);\n        GLES30.glShaderSource(id, source);\n        GLES30.glCompileShader(id);\n        int[] status = new int[1];\n        GLES30.glGetShaderiv(id, GLES30.GL_COMPILE_STATUS, status, 0);\n        if (status[0] == 0) {\n            Log.e(TAG, \"Sun glare compile failed: \" + GLES30.glGetShaderInfoLog(id));\n            GLES30.glDeleteShader(id);\n            return 0;\n        }"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/SunGlareRenderer.java",
+          "match_lines": [
+            693,
+            693
+          ],
+          "match_position": [
+            13,
+            86
+          ],
+          "match_string": "            Log.e(TAG, \"Sun glare compile failed: \" + GLES30.glGetShaderInfoLog(id));"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherGlThread.java",
+          "match_lines": [
+            501,
+            502
+          ],
+          "match_position": [
+            25,
+            94
+          ],
+          "match_string": "                        int error = EGL14.eglGetError();\n                        Log.w(TAG, \"eglSwapBuffers failed: 0x\" + Integer.toHexString(error));"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherGlThread.java",
+          "match_lines": [
+            502,
+            502
+          ],
+          "match_position": [
+            25,
+            94
+          ],
+          "match_string": "                        Log.w(TAG, \"eglSwapBuffers failed: 0x\" + Integer.toHexString(error));"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherGlThread.java",
+          "match_lines": [
+            639,
+            640
+          ],
+          "match_position": [
+            21,
+            73
+          ],
+          "match_string": "                    Log.w(TAG, \"partial eglMakeCurrent(EGL_NO_CONTEXT) failed: 0x\"\n                            + Integer.toHexString(EGL14.eglGetError()));"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherGlThread.java",
+          "match_lines": [
+            658,
+            659
+          ],
+          "match_position": [
+            21,
+            73
+          ],
+          "match_string": "                    Log.w(TAG, \"partial eglDestroySurface failed: 0x\"\n                            + Integer.toHexString(EGL14.eglGetError()));"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherGlThread.java",
+          "match_lines": [
+            669,
+            670
+          ],
+          "match_position": [
+            21,
+            73
+          ],
+          "match_string": "                    Log.w(TAG, \"partial eglDestroyContext failed: 0x\"\n                            + Integer.toHexString(EGL14.eglGetError()));"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherGlThread.java",
+          "match_lines": [
+            761,
+            767
+          ],
+          "match_position": [
+            13,
+            14
+          ],
+          "match_string": "            int error = GLES30.glGetError();\n            surfaceDepthInvalidateValidated = true;\n            if (error != GLES30.GL_NO_ERROR) {\n                surfaceDepthInvalidateSupported = false;\n                Log.w(TAG, \"depth invalidate unsupported, disabling: 0x\"\n                        + Integer.toHexString(error));\n            }"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherGlThread.java",
+          "match_lines": [
+            765,
+            766
+          ],
+          "match_position": [
+            17,
+            55
+          ],
+          "match_string": "                Log.w(TAG, \"depth invalidate unsupported, disabling: 0x\"\n                        + Integer.toHexString(error));"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherGlThread.java",
+          "match_lines": [
+            932,
+            958
+          ],
+          "match_position": [
+            9,
+            10
+          ],
+          "match_string": "        boolean detached = false;\n        try {\n            detached = EGL14.eglMakeCurrent(\n                    egl.display,\n                    EGL14.EGL_NO_SURFACE,\n                    EGL14.EGL_NO_SURFACE,\n                    EGL14.EGL_NO_CONTEXT\n            );\n            if (!detached) {\n                Log.w(TAG, \"eglMakeCurrent(EGL_NO_CONTEXT) failed: 0x\"\n                        + Integer.toHexString(EGL14.eglGetError()));\n            }\n        } catch (RuntimeException error) {\n            Log.w(TAG, \"eglMakeCurrent(EGL_NO_CONTEXT) threw\", error);\n        }\n\n        // Independent confirmation. eglGetCurrent* report this thread's actual\n        // bindings, so this catches a driver that returned success without\n        // unbinding as well as one that reported failure after unbinding.\n        // The queried binding state is authoritative. Some drivers may report a\n        // failure after unbinding, while a reported success is not useful unless\n        // the actual current bindings are gone.\n        boolean confirmedDetached = hasNoCurrentEglBindings();\n        if (!confirmedDetached) {\n            Log.w(TAG, \"EGL bindings are still current after detach attempt\"\n                    + (detached ? \" (eglMakeCurrent reported success)\" : \"\"));\n        }"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherGlThread.java",
+          "match_lines": [
+            941,
+            942
+          ],
+          "match_position": [
+            17,
+            69
+          ],
+          "match_string": "                Log.w(TAG, \"eglMakeCurrent(EGL_NO_CONTEXT) failed: 0x\"\n                        + Integer.toHexString(EGL14.eglGetError()));"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherGlThread.java",
+          "match_lines": [
+            954,
+            1001
+          ],
+          "match_position": [
+            9,
+            10
+          ],
+          "match_string": "        boolean confirmedDetached = hasNoCurrentEglBindings();\n        if (!confirmedDetached) {\n            Log.w(TAG, \"EGL bindings are still current after detach attempt\"\n                    + (detached ? \" (eglMakeCurrent reported success)\" : \"\"));\n        }\n\n        boolean surfaceReleased = false;\n        if (confirmedDetached) {\n            try {\n                // Ordering matters: destroying a surface that is still current only\n                // marks it for deletion. Only after confirmed detachment does a\n                // successful destroy actually release the window surface.\n                surfaceReleased = EGL14.eglDestroySurface(egl.display, egl.surface);\n                if (!surfaceReleased) {\n                    Log.w(TAG, \"eglDestroySurface failed: 0x\"\n                            + Integer.toHexString(EGL14.eglGetError()));\n                }\n            } catch (RuntimeException error) {\n                Log.w(TAG, \"eglDestroySurface threw\", error);\n            }\n        }\n\n        // Attempted regardless. A leaked context is a memory cost, not an\n        // ownership conflict, so it does not gate the latch.\n        try {\n            if (!EGL14.eglDestroyContext(egl.display, egl.context)) {\n                Log.w(TAG, \"eglDestroyContext failed: 0x\"\n                        + Integer.toHexString(EGL14.eglGetError()));\n            }\n        } catch (RuntimeException error) {\n            Log.w(TAG, \"eglDestroyContext threw\", error);\n        }\n\n        if (confirmedDetached) {\n            // Drop any remaining per-thread EGL state. Best effort; the latch is\n            // already decided by the two facts that matter.\n            try {\n                EGL14.eglReleaseThread();\n            } catch (RuntimeException ignored) {\n            }\n        }\n\n        boolean released = confirmedDetached && surfaceReleased;\n        if (!released) {\n            Log.e(TAG, \"EGL not verifiably released (detached=\" + confirmedDetached\n                    + \", surfaceReleased=\" + surfaceReleased\n                    + \"); this thread may still own the window surface\");\n        }"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherGlThread.java",
+          "match_lines": [
+            960,
+            1001
+          ],
+          "match_position": [
+            9,
+            10
+          ],
+          "match_string": "        boolean surfaceReleased = false;\n        if (confirmedDetached) {\n            try {\n                // Ordering matters: destroying a surface that is still current only\n                // marks it for deletion. Only after confirmed detachment does a\n                // successful destroy actually release the window surface.\n                surfaceReleased = EGL14.eglDestroySurface(egl.display, egl.surface);\n                if (!surfaceReleased) {\n                    Log.w(TAG, \"eglDestroySurface failed: 0x\"\n                            + Integer.toHexString(EGL14.eglGetError()));\n                }\n            } catch (RuntimeException error) {\n                Log.w(TAG, \"eglDestroySurface threw\", error);\n            }\n        }\n\n        // Attempted regardless. A leaked context is a memory cost, not an\n        // ownership conflict, so it does not gate the latch.\n        try {\n            if (!EGL14.eglDestroyContext(egl.display, egl.context)) {\n                Log.w(TAG, \"eglDestroyContext failed: 0x\"\n                        + Integer.toHexString(EGL14.eglGetError()));\n            }\n        } catch (RuntimeException error) {\n            Log.w(TAG, \"eglDestroyContext threw\", error);\n        }\n\n        if (confirmedDetached) {\n            // Drop any remaining per-thread EGL state. Best effort; the latch is\n            // already decided by the two facts that matter.\n            try {\n                EGL14.eglReleaseThread();\n            } catch (RuntimeException ignored) {\n            }\n        }\n\n        boolean released = confirmedDetached && surfaceReleased;\n        if (!released) {\n            Log.e(TAG, \"EGL not verifiably released (detached=\" + confirmedDetached\n                    + \", surfaceReleased=\" + surfaceReleased\n                    + \"); this thread may still own the window surface\");\n        }"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherGlThread.java",
+          "match_lines": [
+            968,
+            969
+          ],
+          "match_position": [
+            21,
+            73
+          ],
+          "match_string": "                    Log.w(TAG, \"eglDestroySurface failed: 0x\"\n                            + Integer.toHexString(EGL14.eglGetError()));"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherGlThread.java",
+          "match_lines": [
+            980,
+            981
+          ],
+          "match_position": [
+            17,
+            69
+          ],
+          "match_string": "                Log.w(TAG, \"eglDestroyContext failed: 0x\"\n                        + Integer.toHexString(EGL14.eglGetError()));"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherGlThread.java",
+          "match_lines": [
+            998,
+            1000
+          ],
+          "match_position": [
+            13,
+            74
+          ],
+          "match_string": "            Log.e(TAG, \"EGL not verifiably released (detached=\" + confirmedDetached\n                    + \", surfaceReleased=\" + surfaceReleased\n                    + \"); this thread may still own the window surface\");"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherWallpaperService.java",
+          "match_lines": [
+            244,
+            246
+          ],
+          "match_position": [
+            21,
+            74
+          ],
+          "match_string": "                    Log.w(TAG, \"previous GL thread still holds EGL after \"\n                            + GL_STOP_RECHECK_WINDOW_MS\n                            + \"ms; deferring restart until it releases\");"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherWallpaperService.java",
+          "match_lines": [
+            257,
+            258
+          ],
+          "match_position": [
+            13,
+            83
+          ],
+          "match_string": "            previewEngine = isPreview();\n            Log.i(TAG, \"engine created: \" + (previewEngine ? \"preview\" : \"live\"));"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherWallpaperService.java",
+          "match_lines": [
+            1969,
+            1991
+          ],
+          "match_position": [
+            17,
+            18
+          ],
+          "match_string": "                boolean stopped = thread.shutdown();\n                if (thread.hasReleasedEgl()) {\n                    if (!stopped) {\n                        // Java thread outlived its join window but has already given\n                        // up the EGL context and window surface, so it no longer\n                        // blocks a replacement renderer.\n                        Log.w(TAG, \"GL thread outlived its join window but has \"\n                                + \"released EGL; restart is safe\");\n                    }\n                    if (stoppingGlThread == thread) {\n                        stoppingGlThread = null;\n                    }\n                } else {\n                    // Java-thread exit is not sufficient proof that the EGL window\n                    // surface was released. Track the old renderer until verified\n                    // EGL release is published; never guess based on join outcome.\n                    Log.w(TAG, stopped\n                            ? \"GL thread exited but EGL release is unverified; deferring restart\"\n                            : \"GL thread did not stop within its join window and EGL release \"\n                                    + \"is unverified; deferring restart\");\n                    stoppingGlThread = thread;\n                    glStopRecheckSlowLogged = false;\n                }"
+        }
+      ],
+      "metadata": {
+        "cwe": "CWE-532: Insertion of Sensitive Information into Log File",
+        "description": "The App logs information. Please ensure that sensitive information is never logged.",
+        "masvs": "MSTG-STORAGE-3",
+        "owasp-mobile": "M1: Improper Platform Usage",
+        "reference": "https://github.com/MobSF/owasp-mstg/blob/master/Document/0x05d-Testing-Data-Storage.md#logs",
+        "severity": "INFO"
+      }
+    },
+    "android_prevent_screenshot": {
+      "metadata": {
+        "cwe": "CWE-200: Information Exposure",
+        "description": "This app does not have capabilities to prevent against Screenshots from Recent Task History/ Now On Tap etc.",
+        "masvs": "MSTG-STORAGE-9",
+        "owasp-mobile": "M2: Insecure Data Storage",
+        "reference": "https://github.com/MobSF/owasp-mstg/blob/master/Document/0x05d-Testing-Data-Storage.md#finding-sensitive-information-in-auto-generated-screenshots-mstg-storage-9",
+        "severity": "INFO"
+      }
+    },
+    "android_root_detection": {
+      "metadata": {
+        "cwe": "CWE-919: Weaknesses in Mobile Applications",
+        "description": "This app does not have root detection capabilities. Running a sensitive application on a rooted device questions the device integrity and affects users data.",
+        "masvs": "MSTG-RESILIENCE-1",
+        "owasp-mobile": "M8: Code Tampering",
+        "reference": "https://github.com/MobSF/owasp-mstg/blob/master/Document/0x05j-Testing-Resiliency-Against-Reverse-Engineering.md#testing-root-detection-mstg-resilience-1",
+        "severity": "INFO"
+      }
+    },
+    "android_safetynet_api": {
+      "metadata": {
+        "cwe": "CWE-353: Missing Support for Integrity Check",
+        "description": "This app does not uses SafetyNet Attestation API that provides cryptographically-signed attestation, assessing the device's integrity. This check helps to ensure that the servers are interacting with the genuine app running on a genuine Android device. ",
+        "masvs": "MSTG-RESILIENCE-1",
+        "owasp-mobile": "M8: Code Tampering",
+        "reference": "https://github.com/MobSF/owasp-mstg/blob/master/Document/0x05j-Testing-Resiliency-Against-Reverse-Engineering.md#testing-root-detection-mstg-resilience-1",
+        "severity": "INFO"
+      }
+    },
+    "hardcoded_api_key": {
+      "files": [
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/AppPreferences.java",
+          "match_lines": [
+            11,
+            11
+          ],
+          "match_position": [
+            5,
+            57
+          ],
+          "match_string": "    public static final String KEY_LATITUDE = \"latitude\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/AppPreferences.java",
+          "match_lines": [
+            12,
+            12
+          ],
+          "match_position": [
+            5,
+            59
+          ],
+          "match_string": "    public static final String KEY_LONGITUDE = \"longitude\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/AppPreferences.java",
+          "match_lines": [
+            13,
+            13
+          ],
+          "match_position": [
+            5,
+            69
+          ],
+          "match_string": "    public static final String KEY_LOCATION_LABEL = \"location_label\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/AppPreferences.java",
+          "match_lines": [
+            14,
+            14
+          ],
+          "match_position": [
+            5,
+            67
+          ],
+          "match_string": "    public static final String KEY_LOCATION_MODE = \"location_mode\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/AppPreferences.java",
+          "match_lines": [
+            15,
+            15
+          ],
+          "match_position": [
+            5,
+            75
+          ],
+          "match_string": "    public static final String KEY_LOCATION_TIMEZONE = \"location_timezone\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/AppPreferences.java",
+          "match_lines": [
+            16,
+            16
+          ],
+          "match_position": [
+            5,
+            75
+          ],
+          "match_string": "    public static final String KEY_LOCATION_REVISION = \"location_revision\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/AppPreferences.java",
+          "match_lines": [
+            17,
+            17
+          ],
+          "match_position": [
+            5,
+            59
+          ],
+          "match_string": "    public static final String KEY_SHOW_INFO = \"show_info\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/AppPreferences.java",
+          "match_lines": [
+            18,
+            18
+          ],
+          "match_position": [
+            5,
+            83
+          ],
+          "match_string": "    public static final String KEY_DEBUG_WEATHER_PREVIEW = \"debug_weather_preview\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/AppPreferences.java",
+          "match_lines": [
+            19,
+            19
+          ],
+          "match_position": [
+            5,
+            75
+          ],
+          "match_string": "    public static final String KEY_DEBUG_DAY_PREVIEW = \"debug_day_preview\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/AppPreferences.java",
+          "match_lines": [
+            20,
+            20
+          ],
+          "match_position": [
+            5,
+            91
+          ],
+          "match_string": "    public static final String KEY_LOCATION_PERMISSION_ASKED = \"location_permission_asked\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/AppPreferences.java",
+          "match_lines": [
+            474,
+            483
+          ],
+          "match_position": [
+            9,
+            10
+          ],
+          "match_string": "        return new LocationState(\n                latitude,\n                longitude,\n                clean(preferences.getString(KEY_LOCATION_LABEL, DEFAULT_LABEL), DEFAULT_LABEL),\n                clean(preferences.getString(KEY_LOCATION_MODE, LOCATION_MODE_CITY),\n                        LOCATION_MODE_CITY),\n                clean(preferences.getString(KEY_LOCATION_TIMEZONE, DEFAULT_TIMEZONE),\n                        DEFAULT_TIMEZONE),\n                preferences.getLong(KEY_LOCATION_REVISION, 0L)\n        );"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/DeviceLocationLabeler.java",
+          "match_lines": [
+            55,
+            55
+          ],
+          "match_position": [
+            5,
+            52
+          ],
+          "match_string": "    private static final String KEY_LABEL = \"label\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/DeviceLocationLabeler.java",
+          "match_lines": [
+            56,
+            56
+          ],
+          "match_position": [
+            5,
+            48
+          ],
+          "match_string": "    private static final String KEY_LAT = \"lat\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/DeviceLocationLabeler.java",
+          "match_lines": [
+            57,
+            57
+          ],
+          "match_position": [
+            5,
+            48
+          ],
+          "match_string": "    private static final String KEY_LON = \"lon\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/DeviceLocationLabeler.java",
+          "match_lines": [
+            58,
+            58
+          ],
+          "match_position": [
+            5,
+            72
+          ],
+          "match_string": "    private static final String KEY_ATTEMPT_ELAPSED = \"attempt_elapsed\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/DeviceLocationLabeler.java",
+          "match_lines": [
+            59,
+            59
+          ],
+          "match_position": [
+            5,
+            66
+          ],
+          "match_string": "    private static final String KEY_ATTEMPT_BOOT = \"attempt_boot\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/DeviceLocationLabeler.java",
+          "match_lines": [
+            60,
+            60
+          ],
+          "match_position": [
+            5,
+            64
+          ],
+          "match_string": "    private static final String KEY_ATTEMPT_LAT = \"attempt_lat\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/DeviceLocationLabeler.java",
+          "match_lines": [
+            61,
+            61
+          ],
+          "match_position": [
+            5,
+            64
+          ],
+          "match_string": "    private static final String KEY_ATTEMPT_LON = \"attempt_lon\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/DeviceLocationObserver.java",
+          "match_lines": [
+            31,
+            31
+          ],
+          "match_position": [
+            5,
+            48
+          ],
+          "match_string": "    private static final String KEY_LAT = \"lat\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/DeviceLocationObserver.java",
+          "match_lines": [
+            32,
+            32
+          ],
+          "match_position": [
+            5,
+            48
+          ],
+          "match_string": "    private static final String KEY_LON = \"lon\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/DeviceLocationObserver.java",
+          "match_lines": [
+            33,
+            33
+          ],
+          "match_position": [
+            5,
+            58
+          ],
+          "match_string": "    private static final String KEY_ACCURACY = \"accuracy\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/DeviceLocationObserver.java",
+          "match_lines": [
+            34,
+            34
+          ],
+          "match_position": [
+            5,
+            65
+          ],
+          "match_string": "    private static final String KEY_ELAPSED = \"observed_elapsed\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/DeviceLocationObserver.java",
+          "match_lines": [
+            35,
+            35
+          ],
+          "match_position": [
+            5,
+            59
+          ],
+          "match_string": "    private static final String KEY_BOOT = \"observed_boot\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/PinnedSceneEnvironment.java",
+          "match_lines": [
+            12,
+            12
+          ],
+          "match_position": [
+            5,
+            69
+          ],
+          "match_string": "    static final String KEY_ENVIRONMENT = \"pinned_scene_environment\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/PinnedSceneEnvironment.java",
+          "match_lines": [
+            13,
+            13
+          ],
+          "match_position": [
+            5,
+            63
+          ],
+          "match_string": "    static final String KEY_IDENTITY = \"pinned_scene_identity\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WallpaperWeatherProbeGate.java",
+          "match_lines": [
+            29,
+            29
+          ],
+          "match_position": [
+            5,
+            67
+          ],
+          "match_string": "    private static final String KEY_ELAPSED = \"last_probe_elapsed\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WallpaperWeatherProbeGate.java",
+          "match_lines": [
+            30,
+            30
+          ],
+          "match_position": [
+            5,
+            61
+          ],
+          "match_string": "    private static final String KEY_BOOT = \"last_probe_boot\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherRepository.java",
+          "match_lines": [
+            70,
+            70
+          ],
+          "match_position": [
+            5,
+            74
+          ],
+          "match_string": "    private static final String KEY_CACHE_SCHEMA = \"weather_cache_schema\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherRepository.java",
+          "match_lines": [
+            71,
+            71
+          ],
+          "match_position": [
+            5,
+            70
+          ],
+          "match_string": "    private static final String KEY_FETCHED_AT = \"weather_fetched_at\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherRepository.java",
+          "match_lines": [
+            79,
+            79
+          ],
+          "match_position": [
+            5,
+            86
+          ],
+          "match_string": "    private static final String KEY_FETCHED_AT_ELAPSED = \"weather_fetched_at_elapsed\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherRepository.java",
+          "match_lines": [
+            81,
+            81
+          ],
+          "match_position": [
+            5,
+            86
+          ],
+          "match_string": "    private static final String KEY_FETCHED_BOOT_COUNT = \"weather_fetched_boot_count\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherRepository.java",
+          "match_lines": [
+            82,
+            82
+          ],
+          "match_position": [
+            5,
+            66
+          ],
+          "match_string": "    private static final String KEY_VALID_AT = \"weather_valid_at\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherRepository.java",
+          "match_lines": [
+            83,
+            83
+          ],
+          "match_position": [
+            5,
+            86
+          ],
+          "match_string": "    private static final String KEY_VALID_INTERVAL = \"weather_valid_interval_seconds\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherRepository.java",
+          "match_lines": [
+            84,
+            84
+          ],
+          "match_position": [
+            5,
+            76
+          ],
+          "match_string": "    private static final String KEY_PROVIDER_CODE = \"weather_provider_code\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherRepository.java",
+          "match_lines": [
+            85,
+            85
+          ],
+          "match_position": [
+            5,
+            84
+          ],
+          "match_string": "    private static final String KEY_PROVIDER_TIMEZONE = \"weather_provider_timezone\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherRepository.java",
+          "match_lines": [
+            86,
+            86
+          ],
+          "match_position": [
+            5,
+            84
+          ],
+          "match_string": "    private static final String KEY_RESOLVED_LATITUDE = \"weather_resolved_latitude\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherRepository.java",
+          "match_lines": [
+            87,
+            87
+          ],
+          "match_position": [
+            5,
+            86
+          ],
+          "match_string": "    private static final String KEY_RESOLVED_LONGITUDE = \"weather_resolved_longitude\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherRepository.java",
+          "match_lines": [
+            88,
+            88
+          ],
+          "match_position": [
+            5,
+            63
+          ],
+          "match_string": "    private static final String KEY_PM25 = \"weather_pm25_ugm3\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherRepository.java",
+          "match_lines": [
+            91,
+            91
+          ],
+          "match_position": [
+            5,
+            92
+          ],
+          "match_string": "    private static final String KEY_AQ_FETCHED_AT_ELAPSED = \"weather_aq_fetched_at_elapsed\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherRepository.java",
+          "match_lines": [
+            92,
+            92
+          ],
+          "match_position": [
+            5,
+            76
+          ],
+          "match_string": "    private static final String KEY_AQ_BOOT_COUNT = \"weather_aq_boot_count\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherRepository.java",
+          "match_lines": [
+            93,
+            93
+          ],
+          "match_position": [
+            5,
+            72
+          ],
+          "match_string": "    private static final String KEY_AQ_VALID_AT = \"weather_aq_valid_at\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherRepository.java",
+          "match_lines": [
+            94,
+            94
+          ],
+          "match_position": [
+            5,
+            90
+          ],
+          "match_string": "    private static final String KEY_AQ_LOCATION_REVISION = \"weather_aq_location_revision\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherRepository.java",
+          "match_lines": [
+            95,
+            95
+          ],
+          "match_position": [
+            5,
+            69
+          ],
+          "match_string": "    private static final String KEY_AQ_PM25 = \"weather_aq_pm25_ugm3\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherRepository.java",
+          "match_lines": [
+            96,
+            96
+          ],
+          "match_position": [
+            5,
+            69
+          ],
+          "match_string": "    private static final String KEY_AQ_PM10 = \"weather_aq_pm10_ugm3\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherRepository.java",
+          "match_lines": [
+            97,
+            97
+          ],
+          "match_position": [
+            5,
+            62
+          ],
+          "match_string": "    private static final String KEY_AQ_AOD = \"weather_aq_aod\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherRepository.java",
+          "match_lines": [
+            98,
+            98
+          ],
+          "match_position": [
+            5,
+            69
+          ],
+          "match_string": "    private static final String KEY_AQ_DUST = \"weather_aq_dust_ugm3\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherRepository.java",
+          "match_lines": [
+            99,
+            99
+          ],
+          "match_position": [
+            5,
+            65
+          ],
+          "match_string": "    private static final String KEY_TEMP = \"weather_temperature\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherRepository.java",
+          "match_lines": [
+            100,
+            100
+          ],
+          "match_position": [
+            5,
+            58
+          ],
+          "match_string": "    private static final String KEY_CODE = \"weather_code\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherRepository.java",
+          "match_lines": [
+            101,
+            101
+          ],
+          "match_position": [
+            5,
+            62
+          ],
+          "match_string": "    private static final String KEY_IS_DAY = \"weather_is_day\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherRepository.java",
+          "match_lines": [
+            102,
+            102
+          ],
+          "match_position": [
+            5,
+            76
+          ],
+          "match_string": "    private static final String KEY_PRECIPITATION = \"weather_precipitation\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherRepository.java",
+          "match_lines": [
+            103,
+            103
+          ],
+          "match_position": [
+            5,
+            66
+          ],
+          "match_string": "    private static final String KEY_CLOUD = \"weather_cloud_cover\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherRepository.java",
+          "match_lines": [
+            104,
+            104
+          ],
+          "match_position": [
+            5,
+            64
+          ],
+          "match_string": "    private static final String KEY_WIND = \"weather_wind_speed\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherRepository.java",
+          "match_lines": [
+            105,
+            105
+          ],
+          "match_position": [
+            5,
+            77
+          ],
+          "match_string": "    private static final String KEY_VISIBILITY = \"weather_visibility_meters\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherRepository.java",
+          "match_lines": [
+            106,
+            106
+          ],
+          "match_position": [
+            5,
+            92
+          ],
+          "match_string": "    private static final String KEY_RELATIVE_HUMIDITY = \"weather_relative_humidity_percent\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherRepository.java",
+          "match_lines": [
+            107,
+            107
+          ],
+          "match_position": [
+            5,
+            71
+          ],
+          "match_string": "    private static final String KEY_SUNRISE = \"weather_sunrise_millis\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherRepository.java",
+          "match_lines": [
+            108,
+            108
+          ],
+          "match_position": [
+            5,
+            69
+          ],
+          "match_string": "    private static final String KEY_SUNSET = \"weather_sunset_millis\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherRepository.java",
+          "match_lines": [
+            109,
+            109
+          ],
+          "match_position": [
+            5,
+            87
+          ],
+          "match_string": "    private static final String KEY_PREVIOUS_SUNSET = \"weather_previous_sunset_millis\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherRepository.java",
+          "match_lines": [
+            110,
+            110
+          ],
+          "match_position": [
+            5,
+            81
+          ],
+          "match_string": "    private static final String KEY_NEXT_SUNRISE = \"weather_next_sunrise_millis\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherRepository.java",
+          "match_lines": [
+            111,
+            111
+          ],
+          "match_position": [
+            5,
+            86
+          ],
+          "match_string": "    private static final String KEY_PREVIOUS_HOUR_CODE = \"weather_previous_hour_code\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherRepository.java",
+          "match_lines": [
+            112,
+            112
+          ],
+          "match_position": [
+            5,
+            80
+          ],
+          "match_string": "    private static final String KEY_WEATHER_LOCATION = \"weather_location_label\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherRepository.java",
+          "match_lines": [
+            113,
+            113
+          ],
+          "match_position": [
+            5,
+            92
+          ],
+          "match_string": "    private static final String KEY_WEATHER_LOCATION_REVISION = \"weather_location_revision\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherRepository.java",
+          "match_lines": [
+            114,
+            114
+          ],
+          "match_position": [
+            5,
+            86
+          ],
+          "match_string": "    private static final String KEY_LAST_REFRESH_ERROR = \"weather_last_refresh_error\";"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherRepository.java",
+          "match_lines": [
+            115,
+            115
+          ],
+          "match_position": [
+            5,
+            92
+          ],
+          "match_string": "    private static final String KEY_LAST_REFRESH_ERROR_AT = \"weather_last_refresh_error_at\";"
+        }
+      ],
+      "metadata": {
+        "cwe": "CWE-798: Use of Hard-coded Credentials",
+        "description": "A hardcoded Key is identified.",
+        "masvs": "MSTG-STORAGE-14",
+        "owasp-mobile": "M9: Reverse Engineering",
+        "reference": "https://github.com/MobSF/owasp-mstg/blob/master/Document/0x05d-Testing-Data-Storage.md#storing-a-key---example",
+        "severity": "WARNING"
+      }
+    },
+    "hardcoded_username": {
+      "files": [
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/CitySearchRepository.java",
+          "match_lines": [
+            217,
+            217
+          ],
+          "match_position": [
+            9,
+            79
+          ],
+          "match_string": "        connection.setRequestProperty(\"User-Agent\", \"SkyFlowLiveWeather/1.1\");"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherRepository.java",
+          "match_lines": [
+            1034,
+            1034
+          ],
+          "match_position": [
+            9,
+            79
+          ],
+          "match_string": "        connection.setRequestProperty(\"User-Agent\", \"SkyFlowLiveWeather/1.2\");"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/WeatherRepository.java",
+          "match_lines": [
+            1231,
+            1231
+          ],
+          "match_position": [
+            13,
+            83
+          ],
+          "match_string": "            connection.setRequestProperty(\"User-Agent\", \"SkyFlowLiveWeather/1.2\");"
+        }
+      ],
+      "metadata": {
+        "cwe": "CWE-798: Use of Hard-coded Credentials",
+        "description": "A hardcoded username in plain text is identified.",
+        "masvs": "MSTG-STORAGE-14",
+        "owasp-mobile": "M9: Reverse Engineering",
+        "reference": "https://github.com/MobSF/owasp-mstg/blob/master/Document/0x05d-Testing-Data-Storage.md#storing-a-key---example",
+        "severity": "WARNING"
+      }
+    },
+    "java_insecure_random": {
+      "files": [
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/CloudScene.java",
+          "match_lines": [
+            18,
+            18
+          ],
+          "match_position": [
+            1,
+            24
+          ],
+          "match_string": "import java.util.Random;"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/GalaxyDailyDecision.java",
+          "match_lines": [
+            10,
+            10
+          ],
+          "match_position": [
+            1,
+            24
+          ],
+          "match_string": "import java.util.Random;"
+        },
+        {
+          "file_path": "app/src/main/java/com/otabz/skyflowliveweather/LightningTimeline.java",
+          "match_lines": [
+            5,
+            5
+          ],
+          "match_position": [
+            1,
+            24
+          ],
+          "match_string": "import java.util.Random;"
+        }
+      ],
+      "metadata": {
+        "cwe": "CWE-330: Use of Insufficiently Random Values",
+        "description": "The App uses an insecure Random Number Generator.",
+        "masvs": "MSTG-CRYPTO-6",
+        "owasp-mobile": "M5: Insufficient Cryptography",
+        "reference": "https://github.com/MobSF/owasp-mstg/blob/master/Document/0x04g-Testing-Cryptography.md#weak-random-number-generators",
+        "severity": "WARNING"
+      }
+    }
+  }
+}
